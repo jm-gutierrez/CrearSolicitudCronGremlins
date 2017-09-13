@@ -16,24 +16,17 @@ function unleashGremlins(ttl, callback) {
     }
     var horde = window.gremlins.createHorde();
     horde.seed(1234);
+
     horde.after(callback);
     window.onbeforeunload = stop;
     setTimeout(stop, ttl);
     horde.unleash();
 }
 
-browser.waitForReadyStateEx = function (state, timeout) {
-  return browser.waitUntil(function () {
-    return state ===  browser.execute(function () {
-      return document.readyState;
-    }).value;
-  }, timeout);
-};
-
 describe('Monkey testing with gremlins ', function () {
+  
   it('it should not raise any error', function () {
     browser.url('/');
-    browser.waitForReadyStateEx('complete', 6000);
     browser.click('button=Cerrar');
     
     browser.timeoutsAsyncScript(60000);
@@ -44,8 +37,9 @@ describe('Monkey testing with gremlins ', function () {
   });
 
   afterAll(function() {
-	browser.log('browser').value.forEach(function(log) { 
-		browser.logger.info(log.message.split(' ')[2]);
-	;});
+	 browser.log('browser').value.forEach(function(log) { 
+		 browser.logger.info(log.message.split(' ')[2]);
+	 ;});
   });
+
 });
